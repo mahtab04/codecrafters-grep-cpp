@@ -22,7 +22,6 @@ bool match_pattern(const std::string &input_line, const std::string &pattern)
             std::string chars = pattern.substr(2, pattern.length() - 3);
             return input_line.find_first_not_of(chars) != std::string::npos;
         }
-
         std::string chars = pattern.substr(1, pattern.length() - 2);
         return input_line.find_first_of(chars) != std::string::npos;
     }
