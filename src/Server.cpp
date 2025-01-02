@@ -13,6 +13,12 @@ bool match_pattern(const std::string& input_line, const std::string& pattern) {
     {
         return input_line.find_first_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_") != std::string::npos; 
     }
+	else if (pattern.starts_with("[") && pattern.ends_with("]"))
+	{
+		std::string chars = pattern.substr(1, pattern.length() - 2);
+		return input_line.find_first_of(chars) != std::string::npos;
+	}
+	
     else {
         throw std::runtime_error("Unhandled pattern " + pattern);
     }
