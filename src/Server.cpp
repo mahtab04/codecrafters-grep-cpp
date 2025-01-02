@@ -1,30 +1,40 @@
 #include <iostream>
 #include <string>
 
-bool match_pattern(const std::string& input_line, const std::string& pattern) {
-    if (pattern.length() == 1) {
+bool match_pattern(const std::string &input_line, const std::string &pattern)
+{
+    if (pattern.length() == 1)
+    {
         return input_line.find(pattern) != std::string::npos;
     }
     else if (pattern == "\\d")
     {
-		return input_line.find_first_of("0123456789") != std::string::npos; 
+        return input_line.find_first_of("0123456789") != std::string::npos;
     }
     else if (pattern == "\\w")
     {
-        return input_line.find_first_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_") != std::string::npos; 
+        return input_line.find_first_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_") != std::string::npos;
     }
-	else if (pattern.starts_with("[") && pattern.ends_with("]"))
-	{
-		std::string chars = pattern.substr(1, pattern.length() - 2);
-		return input_line.find_first_of(chars) != std::string::npos;
-	}
-	
-    else {
+    else if (pattern.starts_with("[") && pattern.ends_with("]"))
+    {
+        if (pattern[1] == '^')
+        {
+            std::string chars = pattern.substr(2, pattern.length() - 3);
+            return input_line.find_first_not_of(chars) != std::string::npos;
+        }
+
+        std::string chars = pattern.substr(1, pattern.length() - 2);
+        return input_line.find_first_of(chars) != std::string::npos;
+    }
+
+    else
+    {
         throw std::runtime_error("Unhandled pattern " + pattern);
     }
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[])
+{
     // Flush after every std::cout / std::cerr
     std::cout << std::unitbuf;
     std::cerr << std::unitbuf;
@@ -32,7 +42,8 @@ int main(int argc, char* argv[]) {
     // You can use print statements as follows for debugging, they'll be visible when running tests.
     std::cerr << "Logs from your program will appear here" << std::endl;
 
-    if (argc != 3) {
+    if (argc != 3)
+    {
         std::cerr << "Expected two arguments" << std::endl;
         return 1;
     }
@@ -40,22 +51,29 @@ int main(int argc, char* argv[]) {
     std::string flag = argv[1];
     std::string pattern = argv[2];
 
-    if (flag != "-E") {
+    if (flag != "-E")
+    {
         std::cerr << "Expected first argument to be '-E'" << std::endl;
         return 1;
     }
-    
-     std::string input_line;
-     std::getline(std::cin, input_line);
-    
-     try {
-         if (match_pattern(input_line, pattern)) {
-             return 0;
-         } else {
-             return 1;
-         }
-     } catch (const std::runtime_error& e) {
-         std::cerr << e.what() << std::endl;
-         return 1;
-     }
+
+    std::string input_line;
+    std::getline(std::cin, input_line);
+
+    try
+    {
+        if (match_pattern(input_line, pattern))
+        {
+            return 0;
+        }
+        else
+        {
+            return 1;
+        }
+    }
+    catch (const std::runtime_error &e)
+    {
+        std::cerr << e.what() << std::endl;
+        return 1;
+    }
 }
