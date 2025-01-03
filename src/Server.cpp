@@ -74,7 +74,7 @@ bool match_pattern(const std::string& input_line, const std::string& pattern) {
         return match_pattern(input_line.substr(1), pattern.substr(1));
     }
 
-    return match_pattern(input_line.substr(1), pattern);
+    return false;
 }
 
 bool match_patterns(std::string& input_line, std::string& pattern)
