@@ -100,4 +100,3 @@ bool match_patterns(std::string& input_line, std::string& pattern)
         return false;
     }
 }
-8
